@@ -1,0 +1,30 @@
+@import '../../../styles/theme.scss';
+
+h1 {
+  text-align: center;
+}
+
+.character-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+
+  a {
+    text-decoration: none;
+  }
+
+  .card {
+    color: $light-gray;
+    width: 300px;
+    height: 100%;
+  }  
+}
+
+.image {
+  object-fit: cover;
+  height: 350px;
+  width: 100%;
+}

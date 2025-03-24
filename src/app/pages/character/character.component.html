@@ -1,0 +1,35 @@
+<app-custom-sidenav #drawer>
+  <app-custom-toolbar (toggleSidenav)="drawer.drawer.toggle()"></app-custom-toolbar>
+  <div class="header">
+    <button mat-icon-button routerLink="/">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-text">
+      <h1 class="kanit-bold">{{ characterData.name }}</h1>
+      <h2 class="kanit-regular">{{ characterData.path }}</h2>
+    </div>
+    <div class="header-gradient"></div>
+    <img [src]="'splash-arts/' + characterData.characterImg" alt="{{ characterData?.characterImg }} Header Image">
+  </div>
+
+  <div class="details">
+    <div class="details-text">
+      <h3 class="kanit-bold">Details</h3>
+    </div>
+    <mat-list>
+      @for (detail of details; track detail.description) {
+        <mat-list-item>
+          @if (detail.isMatIcon) {
+            <mat-icon matListItemIcon>{{ detail.icon }}</mat-icon>
+          } @else {
+            <img [src]="detail.icon" matListItemIcon alt="{{ detail.icon }} icon">
+          }
+          <h3 matListItemTitle class="list-item-title kanit-regular">{{ detail.data }}</h3>
+          <p matListItemLine class="list-item-subtitle kanit-thin">
+            <span>{{ detail.description }}</span>
+          </p>
+        </mat-list-item>
+      }
+    </mat-list>
+  </div>
+</app-custom-sidenav>

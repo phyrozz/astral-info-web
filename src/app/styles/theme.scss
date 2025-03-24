@@ -1,0 +1,22 @@
+// Primary Colors
+$primary-blue: #4A90E2;    // Stellar Blue - main theme color
+$primary-purple: #7E57C2;  // Cosmic Purple - secondary theme color
+
+// Accent Colors
+$accent-pink: #FF61A6;     // Astral Pink - for highlights and important elements
+$accent-cyan: #2DE2E6;     // Trailblazer Cyan - for interactive elements
+
+// Neutral Colors
+$space-black: #1A1B26;     // Deep Space - background
+$space-gray: #2F3342;      // Stellar Gray - secondary background
+$light-gray: #E8E9F3;      // Star Light - text on dark backgrounds
+$white: #FFFFFF;           // Pure White - highlights
+
+// Status Colors
+$success: #00B894;         // Success Green
+$warning: #FFB156;         // Warning Orange
+$error: #FF5252;           // Error Red
+
+// Gradient Variables
+$cosmic-gradient: linear-gradient(135deg, $primary-blue, $primary-purple);
+$stellar-gradient: linear-gradient(45deg, $accent-pink, $accent-cyan);

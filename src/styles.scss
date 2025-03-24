@@ -1,0 +1,112 @@
+@import './app/styles/theme.scss';
+
+.kanit-thin {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 100 !important;
+  font-style: normal !important;
+}
+
+.kanit-extralight {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 200 !important;
+  font-style: normal !important;
+}
+
+.kanit-light {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 300 !important;
+  font-style: normal !important;
+}
+
+.kanit-regular {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+}
+
+.kanit-medium {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
+}
+
+.kanit-semibold {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 600 !important;
+  font-style: normal !important;
+}
+
+.kanit-bold {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+}
+
+.kanit-extrabold {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+}
+
+.kanit-black {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+}
+
+.kanit-thin-italic {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 100 !important;
+  font-style: italic !important;
+}
+
+.kanit-extralight-italic {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 200 !important;
+  font-style: italic !important;
+}
+
+.kanit-light-italic {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 300 !important;
+  font-style: italic !important;
+}
+
+.kanit-regular-italic {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+}
+
+.kanit-medium-italic {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 500 !important;
+  font-style: italic !important;
+}
+
+.kanit-semibold-italic {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 600 !important;
+  font-style: italic !important;
+}
+
+.kanit-bold-italic {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 700 !important;
+  font-style: italic !important;
+}
+
+.kanit-extrabold-italic {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 800 !important;
+  font-style: italic !important;
+}
+
+.kanit-black-italic {
+  font-family: "Kanit", sans-serif !important;
+  font-weight: 900 !important;
+  font-style: italic !important;
+}
+
+html, body { height: 100%; }
+body { margin: 0; background-color: $space-black; color: $light-gray }

@@ -1,0 +1,8 @@
+<app-custom-sidenav #drawer>
+  <app-custom-toolbar
+    (toggleSidenav)="drawer.drawer.toggle()"
+  ></app-custom-toolbar>
+  <app-character-list
+    [charactersData]="characters"
+  />
+</app-custom-sidenav>
