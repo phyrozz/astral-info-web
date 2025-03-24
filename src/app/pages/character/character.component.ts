@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpService } from '../../services/http/http.service';
 import { CustomSidenavComponent } from "../../components/custom-sidenav/custom-sidenav.component";
@@ -6,6 +6,9 @@ import { CustomToolbarComponent } from "../../components/custom-toolbar/custom-t
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { environment } from '../../../environments/environment';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-character',
@@ -16,17 +19,34 @@ import { MatListModule } from '@angular/material/list';
     CustomToolbarComponent,
     MatButtonModule,
     MatIconModule,
-    MatListModule
-],
+    MatListModule,
+    MatProgressSpinnerModule
+  ],
+  animations: [
+    trigger('fadeInUp', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('0.3s ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ])
+    ]),
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('0.3s ease-out', style({ opacity: 1 }))
+      ])
+    ])
+  ],
   templateUrl: './character.component.html',
   styleUrl: './character.component.scss'
 })
 export class CharacterComponent implements OnInit {
   @ViewChild(CustomSidenavComponent) drawer!: CustomSidenavComponent;
+  @ViewChild('headerImage') headerImage!: ElementRef;
 
   characterData: any;
   id: number = 0;
   details: any[] = [];
+  isLoading: boolean = true;
 
   constructor(
     private http: HttpService,
@@ -34,6 +54,7 @@ export class CharacterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
       this.getCharacterData(this.id);
@@ -64,6 +85,9 @@ export class CharacterComponent implements OnInit {
       },
       error: (err: any) => {
         console.log(err);
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }
@@ -78,12 +102,12 @@ export class CharacterComponent implements OnInit {
       },
       {
         description: "Path",
-        icon: "path-icons/Path Icon_1_" + data.path + ".png",
+        icon: `${environment.assetBucketUrl}/path-icons/Path Icon_1_${data.path}.png`,
         data: data.path
       },
       {
         description: "Type",
-        icon: "type-icons/Type_" + data.type + ".webp",
+        icon: `${environment.assetBucketUrl}/type-icons/Type_${data.type}.webp`,
         data: data.type
       },
       {
@@ -93,5 +117,26 @@ export class CharacterComponent implements OnInit {
         isMatIcon: true
       }
     ];
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll() {
+    if (this.headerImage?.nativeElement) {
+      const scrollPosition = window.scrollY;
+      const scrollOffset = scrollPosition * 0.4;
+      this.headerImage.nativeElement.style.setProperty('--scroll-offset', `${scrollOffset}px`);
+    }
+  }
+
+  headerImagePath(filename: string): string {
+    return `${environment.assetBucketUrl}/splash-arts/${filename}`
+  }
+
+  pathIconPath(filename: string): string {
+    return `${environment.assetBucketUrl}/path-icons/${filename}`
+  }
+
+  typeIconPath(filename: string): string {
+    return `${environment.assetBucketUrl}/type-icons/${filename}`
   }
 }

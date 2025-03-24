@@ -4,5 +4,7 @@
   ></app-custom-toolbar>
   <app-character-list
     [charactersData]="characters"
+    [hasNextPage]="hasNextPage"
+    (scrollEnd)="getCharacters()"
   />
 </app-custom-sidenav>
