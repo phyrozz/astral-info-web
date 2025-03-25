@@ -1,5 +1,8 @@
 <app-custom-sidenav #drawer>
-  <app-custom-toolbar (toggleSidenav)="drawer.drawer.toggle()"></app-custom-toolbar>
+  <app-custom-toolbar 
+    (toggleSidenav)="drawer.drawer.toggle()"
+    (searchEvent)="onSearch($event)"
+  ></app-custom-toolbar>
   <div class="header">
     <button mat-icon-button routerLink="/">
       <mat-icon>arrow_back</mat-icon>
@@ -9,12 +12,15 @@
         <mat-spinner diameter="50" strokeWidth="10"></mat-spinner>
       </div>
     } @else {
+      <div class="character-highlight" @fadeIn>
+        <img [ngSrc]="headerImagePath(characterData.characterImg)" priority fill>
+      </div>
       <div class="header-text">
         <h1 class="kanit-bold" @fadeInUp>{{ characterData.name }}</h1>
         <h2 class="kanit-regular" @fadeInUp>{{ characterData.path }}</h2>
       </div>
       <div class="header-gradient"></div>
-      <img #headerImage [src]="headerImagePath(characterData.characterImg)" alt="{{ characterData?.characterImg }} Header Image">
+      <img #headerImage [src]="headerImagePath(characterData.characterImg)" alt="{{ characterData?.characterImg }} Header Image" @fadeIn>
     }
   </div>
 

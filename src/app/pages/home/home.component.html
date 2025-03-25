@@ -1,10 +1,13 @@
 <app-custom-sidenav #drawer>
   <app-custom-toolbar
     (toggleSidenav)="drawer.drawer.toggle()"
+    (searchEvent)="onSearch($event)"
   ></app-custom-toolbar>
   <app-character-list
     [charactersData]="characters"
     [hasNextPage]="hasNextPage"
+    [loading]="isLoading"
+    [searchKeyword]="searchKeyword"
     (scrollEnd)="getCharacters()"
   />
 </app-custom-sidenav>

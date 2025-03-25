@@ -8,7 +8,6 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
-
 @Component({
   selector: 'app-character-list',
   standalone: true,
@@ -20,7 +19,7 @@ import { Router } from '@angular/router';
     CommonModule,
     NgOptimizedImage,
     MatProgressSpinnerModule,
-  ],
+],
   animations: [
     trigger('fadeInUp', [
       transition(':enter', [
@@ -54,8 +53,9 @@ import { Router } from '@angular/router';
 export class CharacterListComponent {
   @Input() charactersData: any[] = [];
   @Input() hasNextPage: boolean = false;
+  @Input() loading: boolean = false;
+  @Input() searchKeyword?: string;
   @Output() scrollEnd = new EventEmitter<void>();
-  isLoading = true;
   private throttleTimeout: any = null;
   selectedId: number | null = null;
 
@@ -76,14 +76,14 @@ export class CharacterListComponent {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
 
     if (windowHeight + scrollTop >= documentHeight - 200) {
-      this.isLoading = true;
+      this.loading = true;
       console.log('Scroll end reached!');
       
       this.scrollEnd.emit();
       
       // Prevent multiple emissions for 1 second
       this.throttleTimeout = setTimeout(() => {
-        this.isLoading = false;
+        this.loading = false;
         this.throttleTimeout = null;
       }, 1000);
     }

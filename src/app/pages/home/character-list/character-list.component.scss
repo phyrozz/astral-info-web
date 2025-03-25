@@ -1,7 +1,20 @@
 @import '../../../styles/theme.scss';
 
+.container {
+  background-color: $space-black;
+  color: $light-gray;
+}
+
 h1 {
   text-align: center;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .character-list {

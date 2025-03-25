@@ -109,4 +109,5 @@
 }
 
 html, body { height: 100%; }
-body { margin: 0; background-color: var(--mat-app-background-color); color: $light-gray }
+body { margin: 0; background-color: $space-black; color: $light-gray }
+// body { margin: 0; background-color: var(--mat-app-background-color); color: $light-gray }

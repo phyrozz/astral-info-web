@@ -1,33 +1,39 @@
 <div class="container kanit-regular">
-    <h1 @fadeIn>Characters</h1>
 
-    <div class="character-list">
-      @for (character of charactersData; track character.id) {
-        <a href="character/{{ character.id }}" (click)="onCardClick($event, character.id)">
-          <mat-card class="card" appearance="outlined">
+  <div class="header">
+    <h1 @fadeIn>Characters</h1>
+    @if (searchKeyword) {
+      <p>Search Results for <b>{{ searchKeyword }}</b></p>
+    }
+  </div>
+
+  <div class="character-list">
+    @for (character of charactersData; track character.id) {
+      <a href="character/{{ character.id }}" (click)="onCardClick($event, character.id)" @fadeInUp>
+        <mat-card class="card" appearance="outlined">
+          <mat-card-header>
+            <mat-card-title class="kanit-regular">{{ character.name }}</mat-card-title>
+            <mat-card-subtitle class="kanit-thin">{{ character.path }}</mat-card-subtitle>
+          </mat-card-header>
+          <img class="image" mat-card-image [ngSrc]="imagePath(character.characterImg)" 
+                alt="{{ character.name }} splash art" priority fill>
+        </mat-card>
+        @if (selectedId === character.id) {
+          <mat-card class="card card-clone" [@expandFadeOut]="'expanded'">
             <mat-card-header>
               <mat-card-title class="kanit-regular">{{ character.name }}</mat-card-title>
               <mat-card-subtitle class="kanit-thin">{{ character.path }}</mat-card-subtitle>
             </mat-card-header>
             <img class="image" mat-card-image [ngSrc]="imagePath(character.characterImg)" 
-                 alt="{{ character.name }} splash art" priority fill>
+                  alt="{{ character.name }} splash art" priority fill>
           </mat-card>
-          @if (selectedId === character.id) {
-            <mat-card class="card card-clone" [@expandFadeOut]="'expanded'">
-              <mat-card-header>
-                <mat-card-title class="kanit-regular">{{ character.name }}</mat-card-title>
-                <mat-card-subtitle class="kanit-thin">{{ character.path }}</mat-card-subtitle>
-              </mat-card-header>
-              <img class="image" mat-card-image [ngSrc]="imagePath(character.characterImg)" 
-                   alt="{{ character.name }} splash art" priority fill>
-            </mat-card>
-          }
-        </a>
-      }
-    </div>
-    @if (isLoading) {
-      <div class="loading-container">
-        <mat-spinner diameter="50" strokeWidth="10"></mat-spinner>
-      </div>
+        }
+      </a>
     }
+  </div>
+  @if (loading) {
+    <div class="loading-container">
+      <mat-spinner diameter="50" strokeWidth="10"></mat-spinner>
+    </div>
+  }
 </div>

@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpService } from '../../services/http/http.service';
 import { CustomSidenavComponent } from "../../components/custom-sidenav/custom-sidenav.component";
 import { CustomToolbarComponent } from "../../components/custom-toolbar/custom-toolbar.component";
@@ -9,6 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { environment } from '../../../environments/environment';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-character',
@@ -20,7 +21,8 @@ import { animate, style, transition, trigger } from '@angular/animations';
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    NgOptimizedImage
   ],
   animations: [
     trigger('fadeInUp', [
@@ -50,7 +52,8 @@ export class CharacterComponent implements OnInit {
 
   constructor(
     private http: HttpService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -126,6 +129,15 @@ export class CharacterComponent implements OnInit {
       const scrollOffset = scrollPosition * 0.4;
       this.headerImage.nativeElement.style.setProperty('--scroll-offset', `${scrollOffset}px`);
     }
+  }
+
+  onSearch(keyword: string) {
+    this.drawer.drawer.close();
+    
+    this.router.navigate(['/'], {
+      queryParams: { search: keyword },
+      queryParamsHandling: 'merge',
+    })
   }
 
   headerImagePath(filename: string): string {

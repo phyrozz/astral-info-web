@@ -5,8 +5,13 @@
   </button>
   <span>astral.info</span>
   <span class="spacer"></span>
-  <!-- <button mat-icon-button aria-label="Example icon-button with share icon">
-    <mat-icon>share</mat-icon>
-  </button> -->
+  <form (submit)="onSearch()" class="search-container">
+    <mat-form-field appearance="outline" class="search-field">
+      <input matInput type="text" [formControl]="search">
+    </mat-form-field>
+    <button mat-icon-button aria-label="Search" type="submit">
+      <mat-icon>search</mat-icon>
+    </button>
+  </form>
 </mat-toolbar>
 

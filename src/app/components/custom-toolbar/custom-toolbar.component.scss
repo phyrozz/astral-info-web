@@ -1,5 +1,47 @@
 @import "../../styles/theme.scss";
 
+.toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
 .spacer {
   flex: 1 1 auto;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-left: 10px;
+
+  .search-field {
+    ::ng-deep .mat-mdc-form-field-wrapper {
+      padding: 0;
+      margin: 0;
+    }
+
+    ::ng-deep .mat-mdc-text-field-wrapper {
+      padding: 0 10px;
+      height: 40px;
+    }
+
+    ::ng-deep .mat-mdc-form-field-flex {
+      height: 100%;
+      min-height: unset;
+    }
+
+    ::ng-deep .mat-mdc-form-field-infix {
+      padding: 8px 0;
+      min-height: unset;
+    }
+
+    ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+  }
 }
