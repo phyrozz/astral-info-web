@@ -1,0 +1,17 @@
+<div class="details" @fadeIn>
+  <mat-list>
+    @for (detail of details; track detail.description) {
+      <mat-list-item>
+        @if (detail.isMatIcon) {
+          <mat-icon matListItemIcon>{{ detail.icon }}</mat-icon>
+        } @else {
+          <img [src]="detail.icon" matListItemIcon alt="{{ detail.icon }} icon">
+        }
+        <h3 matListItemTitle class="list-item-title kanit-regular">{{ detail.data }}</h3>
+        <p matListItemLine class="list-item-subtitle kanit-thin">
+          <span>{{ detail.description }}</span>
+        </p>
+      </mat-list-item>
+    }
+  </mat-list>
+</div>

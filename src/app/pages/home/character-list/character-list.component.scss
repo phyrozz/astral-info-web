@@ -60,7 +60,26 @@ h1 {
 }
 
 .image {
+  height: 100%;
   object-fit: cover;
+}
+
+.placeholder {
+  filter: blur(5px);
+  transition: opacity 0.5s ease-in;
+}
+
+.high-res {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+
+/* When high-res image is loaded, fade it in */
+.high-res.loaded {
+  opacity: 1;
 }
 
 .loading-container {

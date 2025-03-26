@@ -63,6 +63,10 @@ export class CharacterListComponent {
     private router: Router
   ) {}
 
+  private debounceTimeout: any = null;
+  private readonly DEBOUNCE_TIME = 150;
+  private readonly THROTTLE_TIME = 1000;
+
   @HostListener('window:scroll', ['$event'])
   onScroll(): void {
     if (!this.hasNextPage) return;
@@ -71,22 +75,28 @@ export class CharacterListComponent {
       return;
     }
 
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-
-    if (windowHeight + scrollTop >= documentHeight - 200) {
-      this.loading = true;
-      console.log('Scroll end reached!');
-      
-      this.scrollEnd.emit();
-      
-      // Prevent multiple emissions for 1 second
-      this.throttleTimeout = setTimeout(() => {
-        this.loading = false;
-        this.throttleTimeout = null;
-      }, 1000);
+    if (this.debounceTimeout) {
+      clearTimeout(this.debounceTimeout);
     }
+
+    this.debounceTimeout = setTimeout(() => {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+      if (windowHeight + scrollTop >= documentHeight - 200) {
+        this.loading = true;
+        console.log('Scroll end reached!');
+        
+        this.scrollEnd.emit();
+        
+        // Prevent multiple emissions for 1 second
+        this.throttleTimeout = setTimeout(() => {
+          this.loading = false;
+          this.throttleTimeout = null;
+        }, this.THROTTLE_TIME);
+      }
+    }, this.DEBOUNCE_TIME);
   }
 
   async onCardClick(event: Event, characterId: number) {
@@ -100,7 +110,16 @@ export class CharacterListComponent {
     this.router.navigate(['/character', characterId]);
   }
 
-  imagePath(fileName: string): string {
-    return `${environment.assetBucketUrl}/splash-arts/${fileName}`;
+  imagePaths(fileName: string) {
+    const highRes = `${environment.assetBucketUrl}/splash-arts/${fileName}`;
+    const lowRes = `${environment.assetBucketUrl}/lowres-splash-arts/${fileName}`;
+
+    return { lowRes, highRes };
+  }
+
+  highResLoaded: { [key: string]: boolean } = {};
+
+  onHighResLoad(characterId: string | number) {
+    this.highResLoaded[characterId] = true;
   }
 }

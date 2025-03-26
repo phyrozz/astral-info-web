@@ -1,0 +1,19 @@
+<mat-grid-list cols="5" rowHeight="1:1">
+  @for (artwork of fanArtworks; track artwork.id) {
+    <mat-grid-tile>
+      <div class="image-container" (click)="openPreview(artwork.media_asset.variants[3].url)">
+        <img
+          class="image"
+          mat-card-image
+          [ngSrc]="artwork.media_asset.variants[1].url"
+          alt="{{ artwork.source }}"
+          priority
+          fill
+        />
+      </div>
+    </mat-grid-tile>
+  }
+</mat-grid-list>
+<div class="loading-container">
+  <mat-spinner diameter="50" strokeWidth="10"></mat-spinner>
+</div>

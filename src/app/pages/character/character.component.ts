@@ -7,9 +7,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
 import { environment } from '../../../environments/environment';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { NgOptimizedImage } from '@angular/common';
+import { DetailsComponent } from './details/details.component';
+import { FanArtworksComponent } from './fan-artworks/fan-artworks.component';
 
 @Component({
   selector: 'app-character',
@@ -22,7 +25,10 @@ import { NgOptimizedImage } from '@angular/common';
     MatIconModule,
     MatListModule,
     MatProgressSpinnerModule,
-    NgOptimizedImage
+    MatTabsModule,
+    NgOptimizedImage,
+    DetailsComponent,
+    FanArtworksComponent
   ],
   animations: [
     trigger('fadeInUp', [
@@ -49,6 +55,7 @@ export class CharacterComponent implements OnInit {
   id: number = 0;
   details: any[] = [];
   isLoading: boolean = true;
+  headerImageLoaded: boolean = false;
 
   constructor(
     private http: HttpService,
@@ -84,42 +91,20 @@ export class CharacterComponent implements OnInit {
     this.http.get(`https://j2hiihr9tj.execute-api.ap-southeast-1.amazonaws.com/dev/characters/get/${id}`).subscribe({
       next: (res: any) => {
         this.characterData = res.data;
-        this.setDetails(this.characterData);
+        
+        // Preload the image
+        const img = new Image();
+        img.onload = () => {
+          this.headerImageLoaded = true;
+          this.isLoading = false;
+        };
+        img.src = this.headerImagePath(this.characterData.characterImg);
       },
       error: (err: any) => {
         console.log(err);
-      },
-      complete: () => {
         this.isLoading = false;
       }
     });
-  }
-
-  private setDetails(data: any) {
-    this.details = [
-      {
-        description: "Name",
-        icon: "person",
-        data: data.name,
-        isMatIcon: true
-      },
-      {
-        description: "Path",
-        icon: `${environment.assetBucketUrl}/path-icons/Path Icon_1_${data.path}.png`,
-        data: data.path
-      },
-      {
-        description: "Type",
-        icon: `${environment.assetBucketUrl}/type-icons/Type_${data.type}.webp`,
-        data: data.type
-      },
-      {
-        description: "Rarity",
-        icon: "star",
-        data: data.rarity,
-        isMatIcon: true
-      }
-    ];
   }
 
   @HostListener('window:scroll', ['$event'])

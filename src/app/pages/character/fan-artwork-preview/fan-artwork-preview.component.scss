@@ -1,0 +1,41 @@
+:host {
+  display: block;
+  height: 100%;
+  margin: 0;
+}
+
+.preview-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+::ng-deep .no-padding-dialog {
+  .mat-mdc-dialog-container {
+    padding: 0;
+    background: transparent;
+  }
+
+  .mdc-dialog__surface {
+    overflow: hidden;
+    background: transparent;
+  }
+
+  .mat-mdc-dialog-content {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

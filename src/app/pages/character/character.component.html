@@ -7,43 +7,42 @@
     <button mat-icon-button routerLink="/">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    @if (isLoading) {
+    @if (characterData && headerImageLoaded) {
+      <div class="character-highlight" @fadeIn>
+        <img [ngSrc]="headerImagePath(characterData?.characterImg)" priority fill>
+      </div>
+      <div class="header-text">
+        <h1 class="kanit-bold" @fadeInUp>{{ characterData?.name }}</h1>
+        <h2 class="kanit-thin" @fadeInUp>{{ characterData?.path }}</h2>
+      </div>
+      <div class="header-gradient"></div>
+      <img #headerImage [src]="headerImagePath(characterData?.characterImg)" alt="{{ characterData?.characterImg }} Header Image" @fadeIn>
+    } @else {
       <div class="loading-container">
         <mat-spinner diameter="50" strokeWidth="10"></mat-spinner>
       </div>
-    } @else {
-      <div class="character-highlight" @fadeIn>
-        <img [ngSrc]="headerImagePath(characterData.characterImg)" priority fill>
-      </div>
-      <div class="header-text">
-        <h1 class="kanit-bold" @fadeInUp>{{ characterData.name }}</h1>
-        <h2 class="kanit-regular" @fadeInUp>{{ characterData.path }}</h2>
-      </div>
-      <div class="header-gradient"></div>
-      <img #headerImage [src]="headerImagePath(characterData.characterImg)" alt="{{ characterData?.characterImg }} Header Image" @fadeIn>
     }
   </div>
 
   @if (!isLoading) {
-    <div class="details" @fadeIn>
-      <div class="details-text">
-        <h3 class="kanit-bold">Details</h3>
-      </div>
-      <mat-list>
-        @for (detail of details; track detail.description) {
-          <mat-list-item>
-            @if (detail.isMatIcon) {
-              <mat-icon matListItemIcon>{{ detail.icon }}</mat-icon>
-            } @else {
-              <img [src]="detail.icon" matListItemIcon alt="{{ detail.icon }} icon">
-            }
-            <h3 matListItemTitle class="list-item-title kanit-regular">{{ detail.data }}</h3>
-            <p matListItemLine class="list-item-subtitle kanit-thin">
-              <span>{{ detail.description }}</span>
-            </p>
-          </mat-list-item>
-        }
-      </mat-list>
-    </div>
+    <mat-tab-group>
+      <mat-tab label="Details and Stats">
+        <app-details
+          [characterDetails]="characterData"
+        ></app-details>
+      </mat-tab>
+      <mat-tab label="Skills"></mat-tab>
+      <mat-tab label="Traces"></mat-tab>
+      <mat-tab label="Eidolons"></mat-tab>
+      <mat-tab label="Story"></mat-tab>
+      <mat-tab label="Fan Artworks">
+        <ng-template matTabContent>
+          <app-fan-artworks
+            [tagName]="characterData?.booruTagName"
+          ></app-fan-artworks>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+    
   }
 </app-custom-sidenav>

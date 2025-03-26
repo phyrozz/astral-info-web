@@ -1,0 +1,21 @@
+@import "../../../styles/theme.scss";
+
+mat-icon {
+  color: $light-gray !important;
+}
+
+.details {
+  padding: 1em;
+  background-color: $space-black;
+  color: $light-gray !important;
+}
+
+.list-item-title {
+  font-size: larger;
+  color: $light-gray !important;
+}
+
+.list-item-subtitle {
+  font-size: small;
+  color: $light-gray !important;
+}

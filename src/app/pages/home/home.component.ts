@@ -47,11 +47,12 @@ export class HomeComponent implements OnInit {
       
       this.getCharacters(this.searchKeyword);
     });
-
-    this.isLoading = true;
   }
 
   public getCharacters(keyword: string = '') {
+    if (this.isLoading) return;
+
+    this.isLoading = true;
     const data: any = {
       limit: LIST_LIMIT,
       ...(this.lastItemId !== undefined && {
@@ -68,12 +69,15 @@ export class HomeComponent implements OnInit {
         this.lastItemId = res.pagination.lastEvaluatedKey?.id;
         this.hasNextPage = res.pagination.hasNextPage;
 
-        if (!this.hasNextPage) this.isLoading = false;
+        // if (!this.hasNextPage) this.isLoading = false;
 
         console.log(res.pagination.hasNextPage);
       },
       error: (err: any) => {
         console.log(err);
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }
@@ -83,7 +87,6 @@ export class HomeComponent implements OnInit {
     this.characters = [];
     this.lastItemId = undefined;
     this.hasNextPage = false;
-    this.isLoading = true;
     
     this.router.navigate([], {
       queryParams: { search: keyword },
