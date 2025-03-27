@@ -6,6 +6,8 @@
           class="image"
           mat-card-image
           [ngSrc]="artwork.media_asset.variants[1].url"
+          [class.loaded]="imageLoaded[artwork.id]"
+          (load)="onImageLoad(artwork.id)"
           alt="{{ artwork.source }}"
           priority
           fill

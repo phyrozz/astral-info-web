@@ -9,14 +9,14 @@
     </button>
     @if (characterData && headerImageLoaded) {
       <div class="character-highlight" @fadeIn>
-        <img [ngSrc]="headerImagePath(characterData?.characterImg)" priority fill>
+        <img [ngSrc]="headerImagePath(characterData?.character_img)" priority fill>
       </div>
       <div class="header-text">
         <h1 class="kanit-bold" @fadeInUp>{{ characterData?.name }}</h1>
         <h2 class="kanit-thin" @fadeInUp>{{ characterData?.path }}</h2>
       </div>
       <div class="header-gradient"></div>
-      <img #headerImage [src]="headerImagePath(characterData?.characterImg)" alt="{{ characterData?.characterImg }} Header Image" @fadeIn>
+      <img #headerImage [src]="headerImagePath(characterData?.character_img)" alt="{{ characterData?.character_img }} Header Image" @fadeIn>
     } @else {
       <div class="loading-container">
         <mat-spinner diameter="50" strokeWidth="10"></mat-spinner>
@@ -38,7 +38,7 @@
       <mat-tab label="Fan Artworks">
         <ng-template matTabContent>
           <app-fan-artworks
-            [tagName]="characterData?.booruTagName"
+            [tagName]="characterData?.booru_tag_name"
           ></app-fan-artworks>
         </ng-template>
       </mat-tab>

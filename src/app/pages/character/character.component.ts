@@ -98,7 +98,7 @@ export class CharacterComponent implements OnInit {
           this.headerImageLoaded = true;
           this.isLoading = false;
         };
-        img.src = this.headerImagePath(this.characterData.characterImg);
+        img.src = this.headerImagePath(this.characterData.character_img);
       },
       error: (err: any) => {
         console.log(err);

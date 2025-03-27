@@ -52,7 +52,6 @@ import { Router } from '@angular/router';
 })
 export class CharacterListComponent {
   @Input() charactersData: any[] = [];
-  @Input() hasNextPage: boolean = false;
   @Input() loading: boolean = false;
   @Input() searchKeyword?: string;
   @Output() scrollEnd = new EventEmitter<void>();
@@ -69,8 +68,6 @@ export class CharacterListComponent {
 
   @HostListener('window:scroll', ['$event'])
   onScroll(): void {
-    if (!this.hasNextPage) return;
-
     if (this.throttleTimeout) {
       return;
     }

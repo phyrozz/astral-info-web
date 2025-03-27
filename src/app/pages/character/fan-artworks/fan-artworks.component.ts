@@ -6,6 +6,7 @@ import { HttpService } from '../../../services/http/http.service';
 import { NgOptimizedImage } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FanArtworkPreviewComponent } from '../fan-artwork-preview/fan-artwork-preview.component';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-fan-artworks',
@@ -15,6 +16,14 @@ import { FanArtworkPreviewComponent } from '../fan-artwork-preview/fan-artwork-p
     MatProgressSpinnerModule,
     MatDialogModule,
     NgOptimizedImage
+  ],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('0.3s ease-out', style({ opacity: 1 }))
+      ])
+    ])
   ],
   templateUrl: './fan-artworks.component.html',
   styleUrl: './fan-artworks.component.scss'
@@ -30,6 +39,7 @@ export class FanArtworksComponent implements OnInit, OnDestroy {
   private readonly DEBOUNCE_TIME = 150;
   private readonly THROTTLE_TIME = 500;
   loading: boolean = false;
+  imageLoaded: { [key: number]: boolean } = {};
 
   constructor(
     private http: HttpService
@@ -108,5 +118,9 @@ export class FanArtworksComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');
     });
+  }
+
+  onImageLoad(artworkId: number) {
+    this.imageLoaded[artworkId] = true;
   }
 }

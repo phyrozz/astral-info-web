@@ -18,7 +18,7 @@
           <!-- Low resolution placeholder -->
           <img
             class="image placeholder"
-            [ngSrc]="imagePaths(character.characterImg).lowRes"
+            [ngSrc]="imagePaths(character.character_img).lowRes"
             alt="{{ character.name }} splash art low res"
             fill
           />
@@ -26,7 +26,7 @@
           <!-- High resolution image -->
           <img
             class="image high-res"
-            [ngSrc]="imagePaths(character.characterImg).highRes"
+            [ngSrc]="imagePaths(character.character_img).highRes"
             alt="{{ character.name }} splash art high res"
             fill
             (load)="onHighResLoad(character.id)"
@@ -39,7 +39,7 @@
               <mat-card-title class="kanit-regular">{{ character.name }}</mat-card-title>
               <mat-card-subtitle class="kanit-thin">{{ character.path }}</mat-card-subtitle>
             </mat-card-header>
-            <img class="image" mat-card-image [ngSrc]="imagePaths(character.characterImg).highRes" 
+            <img class="image" mat-card-image [ngSrc]="imagePaths(character.character_img).highRes" 
                   alt="{{ character.name }} splash art" priority fill>
           </mat-card>
         }

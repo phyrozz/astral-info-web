@@ -25,6 +25,8 @@ export class HomeComponent implements OnInit {
   hasNextPage: boolean = false;
   isLoading: boolean = false;
   searchKeyword: string = '';
+  limit: number = LIST_LIMIT;
+  offset: number = 0;
 
   constructor(
     private http: HttpService,
@@ -54,24 +56,27 @@ export class HomeComponent implements OnInit {
 
     this.isLoading = true;
     const data: any = {
-      limit: LIST_LIMIT,
-      ...(this.lastItemId !== undefined && {
-        lastEvaluatedKey: {
-          id: this.lastItemId
-        }
-      }),
+      // limit: LIST_LIMIT,
+      // ...(this.lastItemId !== undefined && {
+      //   lastEvaluatedKey: {
+      //     id: this.lastItemId
+      //   }
+      // }),
+      limit: this.limit,
+      offset: this.offset,
       keyword: keyword
     }
 
     this.http.post("https://j2hiihr9tj.execute-api.ap-southeast-1.amazonaws.com/dev/characters/list", data).subscribe({
       next: (res: any) => {
         this.characters = [...this.characters, ...res.data];
-        this.lastItemId = res.pagination.lastEvaluatedKey?.id;
-        this.hasNextPage = res.pagination.hasNextPage;
+        // this.lastItemId = res.pagination.lastEvaluatedKey?.id;
+        this.offset = res.pagination.offset;
+        this.limit = res.pagination.limit;
+
+        if (res.data.length !== 0) this.offset += this.limit;
 
         // if (!this.hasNextPage) this.isLoading = false;
-
-        console.log(res.pagination.hasNextPage);
       },
       error: (err: any) => {
         console.log(err);
