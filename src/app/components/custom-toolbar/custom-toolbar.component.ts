@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { FormControl } from '@angular/forms';
-
+import { trigger, state, style, transition, animate } from '@angular/animations';
 @Component({
   selector: 'app-custom-toolbar',
   standalone: true,
@@ -23,20 +23,44 @@ import { FormControl } from '@angular/forms';
     FormsModule
   ],
   templateUrl: './custom-toolbar.component.html',
-  styleUrl: './custom-toolbar.component.scss'
+  styleUrl: './custom-toolbar.component.scss',
+  animations: [
+    trigger('slideInOut', [
+      state('void', style({
+        transform: 'translateX(100%)',
+        opacity: 0
+      })),
+      state('*', style({
+        transform: 'translateX(0)',
+        opacity: 1
+      })),
+      transition(':enter', [
+        animate('150ms ease-out')
+      ]),
+      transition(':leave', [
+        animate('150ms ease-in')
+      ])
+    ])
+  ]
 })
 export class CustomToolbarComponent {
   @Output() toggleSidenav = new EventEmitter<void>();
   @Output() searchEvent = new EventEmitter<string>();
 
   search = new FormControl('');
+  showSearchField: boolean = false;
 
   toggleSideNav() {
     this.toggleSidenav.emit();
   }
 
   onSearch() {
-    console.log(this.search.value);
-    this.searchEvent.emit(this.search.value ?? '');
+    if (this.search.value) {
+      this.searchEvent.emit(this.search.value ?? '');
+    }
+  }
+
+  toggleSearchField() {
+    this.showSearchField = true;
   }
 }

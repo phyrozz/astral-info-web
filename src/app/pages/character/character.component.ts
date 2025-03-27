@@ -56,6 +56,7 @@ export class CharacterComponent implements OnInit {
   details: any[] = [];
   isLoading: boolean = true;
   headerImageLoaded: boolean = false;
+  showScrollTopButton: boolean = false;
 
   constructor(
     private http: HttpService,
@@ -109,6 +110,10 @@ export class CharacterComponent implements OnInit {
 
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
+    // show fab button when page is scrolled down 200px
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    this.showScrollTopButton = scrollPosition > 200;
+
     if (this.headerImage?.nativeElement) {
       const scrollPosition = window.scrollY;
       const scrollOffset = scrollPosition * 0.4;
@@ -135,5 +140,9 @@ export class CharacterComponent implements OnInit {
 
   typeIconPath(filename: string): string {
     return `${environment.assetBucketUrl}/type-icons/${filename}`
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

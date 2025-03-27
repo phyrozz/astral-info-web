@@ -9,4 +9,11 @@
     [searchKeyword]="searchKeyword"
     (scrollEnd)="getCharacters()"
   />
+  @if (showScrollTopButton) {
+    <div class="fab">
+      <button mat-fab aria-label="Back to top button" (click)="scrollToTop()">
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      </button>
+    </div>
+  }
 </app-custom-sidenav>

@@ -7,8 +7,19 @@
   ));
 }
 
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+
+  ::ng-deep .mat-mdc-fab {
+    background-color: $space-gray;
+  }
+}
+
 .header {
-  height: 90vh;
+  height: 75vh;
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -83,5 +94,16 @@
     top: 0;
     transform: translateY(var(--scroll-offset, 0));
     will-change: transform;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    height: 90vh;
+
+    .character-highlight {
+     width: 100%;
+     z-index: 2;
+   }
   }
 }

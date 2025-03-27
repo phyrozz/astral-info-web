@@ -7,7 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-character-list',
   standalone: true,
@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
     CommonModule,
     NgOptimizedImage,
     MatProgressSpinnerModule,
+    RouterLink
 ],
   animations: [
     trigger('fadeInUp', [
@@ -63,8 +64,8 @@ export class CharacterListComponent {
   ) {}
 
   private debounceTimeout: any = null;
-  private readonly DEBOUNCE_TIME = 150;
-  private readonly THROTTLE_TIME = 1000;
+  private readonly DEBOUNCE_TIME = 100;
+  private readonly THROTTLE_TIME = 300;
 
   @HostListener('window:scroll', ['$event'])
   onScroll(): void {
@@ -87,7 +88,6 @@ export class CharacterListComponent {
         
         this.scrollEnd.emit();
         
-        // Prevent multiple emissions for 1 second
         this.throttleTimeout = setTimeout(() => {
           this.loading = false;
           this.throttleTimeout = null;

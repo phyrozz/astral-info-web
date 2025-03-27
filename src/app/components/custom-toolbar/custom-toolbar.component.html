@@ -1,15 +1,17 @@
 
 <mat-toolbar class="toolbar kanit-bold">
-  <button mat-icon-button aria-label="Sidenav Toggle Button" (click)="toggleSideNav()">
+  <!-- <button mat-icon-button aria-label="Sidenav Toggle Button" (click)="toggleSideNav()">
     <mat-icon>menu</mat-icon>
-  </button>
+  </button> -->
   <span>astral.info</span>
   <span class="spacer"></span>
   <form (submit)="onSearch()" class="search-container">
-    <mat-form-field appearance="outline" class="search-field">
-      <input matInput type="text" [formControl]="search">
-    </mat-form-field>
-    <button mat-icon-button aria-label="Search" type="submit">
+    @if (showSearchField) {
+      <mat-form-field appearance="outline" class="search-field" @slideInOut>
+        <input matInput type="text" [formControl]="search">
+      </mat-form-field>
+    }
+    <button mat-icon-button aria-label="Search" type="submit" (click)="toggleSearchField()">
       <mat-icon>search</mat-icon>
     </button>
   </form>

@@ -7,6 +7,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FanArtworkPreviewComponent } from '../fan-artwork-preview/fan-artwork-preview.component';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { ScreenSizeService } from '../../../services/screen-size/screen-size.service';
 
 @Component({
   selector: 'app-fan-artworks',
@@ -40,12 +41,18 @@ export class FanArtworksComponent implements OnInit, OnDestroy {
   private readonly THROTTLE_TIME = 500;
   loading: boolean = false;
   imageLoaded: { [key: number]: boolean } = {};
+  $screenSize: string = 'desktop';
 
   constructor(
-    private http: HttpService
+    private http: HttpService,
+    private screenSize: ScreenSizeService
   ) { }
 
   ngOnInit(): void {
+    this.screenSize.getScreenSize().subscribe(size => {
+      this.$screenSize = size;
+      console.log(size);
+    });
     this.getFanArtworks(this.page);
   }
 
@@ -90,11 +97,17 @@ export class FanArtworksComponent implements OnInit, OnDestroy {
   getFanArtworks(page: number) {
     this.http.get(environment.booruUrl, {
       tags: this.tagName,
-      limit: 10,
+      limit: 25,
       page: page
     }).subscribe({
       next: (response: any) => {
-        this.fanArtworks = [...this.fanArtworks, ...response];
+        // filter out items without media_asset or without variants
+        const filteredResponse = response.filter((item: any) => 
+          item.media_asset && 
+          item.media_asset.variants && 
+          Object.keys(item.media_asset.variants).length > 0
+        );
+        this.fanArtworks = [...this.fanArtworks, ...filteredResponse];
       },
       error: (error: any) => {
         console.error('Error fetching fan artworks:', error);
@@ -122,5 +135,15 @@ export class FanArtworksComponent implements OnInit, OnDestroy {
 
   onImageLoad(artworkId: number) {
     this.imageLoaded[artworkId] = true;
+  }
+
+  gridCols() {
+    if (this.$screenSize === 'mobile') {
+      return 2;
+    } else if (this.$screenSize === 'tablet') {
+      return 4;
+    } else {
+      return 5;
+    }
   }
 }

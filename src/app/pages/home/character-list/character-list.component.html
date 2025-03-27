@@ -1,6 +1,11 @@
 <div class="container kanit-regular">
 
   <div class="header">
+    @if (searchKeyword) {
+      <button mat-icon-button routerLink="/">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    }
     <h1 @fadeIn>Characters</h1>
     @if (searchKeyword) {
       <p>Search Results for <b>{{ searchKeyword }}</b></p>

@@ -1,0 +1,13 @@
+@use '@angular/material' as mat;
+@import "../../styles/theme.scss";
+
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+
+  ::ng-deep .mat-mdc-fab {
+    background-color: $space-gray;
+  }
+}
+
