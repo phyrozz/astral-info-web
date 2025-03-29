@@ -21,6 +21,19 @@
             Filter
           </mat-panel-title>
         </mat-expansion-panel-header>
+
+        <form [formGroup]="filterForm">
+          <mat-form-field appearance="outline" class="filter-field">
+            <mat-label>Path</mat-label>
+            <mat-select (openedChange)="onPathOpened($event)">
+              <mat-option>None</mat-option>
+              @for (path of pathsData; track path.id) {
+                <mat-option [value]="path.id">{{ path.name }}</mat-option>
+              }
+            </mat-select>            
+          </mat-form-field>
+        </form>
+        
       </mat-expansion-panel>
     </mat-accordion>
   </div>
@@ -33,24 +46,17 @@
             <mat-card-title class="kanit-regular">{{ character.name }}</mat-card-title>
             <mat-card-subtitle class="kanit-thin">{{ character.path }}</mat-card-subtitle>
           </mat-card-header>
-          <!-- Low resolution placeholder -->
+          
           <img
-            class="image placeholder"
+            class="image high-res"
             [ngSrc]="imagePaths(character.character_img).lowRes"
             alt="{{ character.name }} splash art low res"
             fill
-          />
-          
-          <!-- High resolution image -->
-          <img
-            class="image high-res"
-            [ngSrc]="imagePaths(character.character_img).highRes"
-            alt="{{ character.name }} splash art high res"
-            fill
-            (load)="onHighResLoad(character.id)"
-            [class.loaded]="highResLoaded[character.id]"
+            (load)="onThumbLoaded(character.id)"
+            [class.loaded]="thumbLoaded[character.id]"
           />         
         </mat-card>
+        
         @if (selectedId === character.id) {
           <mat-card class="card card-clone" [@expandFadeOut]="'expanded'">
             <mat-card-header>

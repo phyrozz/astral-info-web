@@ -1,14 +1,21 @@
-import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, inject, OnInit } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange } from '@angular/material/select';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Router, RouterLink } from '@angular/router';
+import { HttpService } from '../../../services/http/http.service';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-character-list',
   standalone: true,
@@ -21,7 +28,11 @@ import { Router, RouterLink } from '@angular/router';
     NgOptimizedImage,
     MatProgressSpinnerModule,
     MatExpansionModule,
-    RouterLink
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    RouterLink,
+    ReactiveFormsModule
 ],
   animations: [
     trigger('fadeInUp', [
@@ -53,17 +64,28 @@ import { Router, RouterLink } from '@angular/router';
   templateUrl: './character-list.component.html',
   styleUrl: './character-list.component.scss'
 })
-export class CharacterListComponent {
+export class CharacterListComponent implements OnInit {
   @Input() charactersData: any[] = [];
   @Input() loading: boolean = false;
   @Input() searchKeyword?: string;
   @Output() scrollEnd = new EventEmitter<void>();
   private throttleTimeout: any = null;
   selectedId: number | null = null;
+  thumbLoaded: { [key: number]: boolean } = {};
+  pathsData: any[] = [];
+  private formBuilder = inject(FormBuilder);
+  filterForm?: any;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private http: HttpService,
   ) {}
+
+  ngOnInit(): void {
+    this.filterForm = this.formBuilder.group({
+      paths: [null],
+    });
+  }
 
   private debounceTimeout: any = null;
   private readonly DEBOUNCE_TIME = 100;
@@ -115,10 +137,20 @@ export class CharacterListComponent {
 
     return { lowRes, highRes };
   }
-
-  highResLoaded: { [key: string]: boolean } = {};
-
-  onHighResLoad(characterId: string | number) {
-    this.highResLoaded[characterId] = true;
+  
+  onThumbLoaded(characterId: number) {
+    this.thumbLoaded[characterId] = true;
   }
+
+  onPathOpened(opened: boolean) {
+    if (opened) {
+      this.http.post(`${environment.apiUrl}/paths/list`, {}).subscribe({
+        next: (res: any) => {
+          this.pathsData = res.data;
+          console.log('API response:', res);
+        },
+        error: (err) => console.error('API error:', err)
+      });
+    }
+  }  
 }
