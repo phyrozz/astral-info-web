@@ -7,6 +7,7 @@ import { LIST_LIMIT } from '../../../constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -81,7 +82,7 @@ export class HomeComponent implements OnInit {
       keyword: this.searchKeyword
     }
 
-    this.http.post("https://j2hiihr9tj.execute-api.ap-southeast-1.amazonaws.com/dev/characters/list", data).subscribe({
+    this.http.post(`${environment.apiUrl}/characters/list`, data).subscribe({
       next: (res: any) => {
         this.characters = [...this.characters, ...res.data];
         // this.lastItemId = res.pagination.lastEvaluatedKey?.id;
@@ -102,7 +103,6 @@ export class HomeComponent implements OnInit {
   }
 
   onSearch(keyword: string) {
-    this.drawer.drawer.close();
     this.characters = [];
     
     this.router.navigate([], {

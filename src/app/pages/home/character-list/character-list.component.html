@@ -6,10 +6,23 @@
         <mat-icon>arrow_back</mat-icon>
       </button>
     }
-    <h1 @fadeIn>Characters</h1>
+    <h1 class="kanit-extralight" @fadeIn>Characters</h1>
     @if (searchKeyword) {
       <p>Search Results for <b>{{ searchKeyword }}</b></p>
     }
+  </div>
+
+  <div class="filter-container">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>filter_list</mat-icon>
+            Filter
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
 
   <div class="character-list">
@@ -50,10 +63,11 @@
         }
       </a>
     }
+    
+    @if (loading) {
+      <div class="loading-container">
+        <mat-spinner diameter="50" strokeWidth="10"></mat-spinner>
+      </div>
+    }
   </div>
-  @if (loading) {
-    <div class="loading-container">
-      <mat-spinner diameter="50" strokeWidth="10"></mat-spinner>
-    </div>
-  }
 </div>

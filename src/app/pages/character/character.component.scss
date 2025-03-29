@@ -9,8 +9,8 @@
 
 .fab {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 12px;
+  right: 12px;
   z-index: 100;
 
   ::ng-deep .mat-mdc-fab {
@@ -99,8 +99,6 @@
 
 @media (max-width: 768px) {
   .header {
-    height: 90vh;
-
     .character-highlight {
      width: 100%;
      z-index: 2;

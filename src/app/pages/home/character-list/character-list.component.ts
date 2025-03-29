@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -19,6 +20,7 @@ import { Router, RouterLink } from '@angular/router';
     CommonModule,
     NgOptimizedImage,
     MatProgressSpinnerModule,
+    MatExpansionModule,
     RouterLink
 ],
   animations: [
