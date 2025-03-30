@@ -8,13 +8,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSelectChange } from '@angular/material/select';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Router, RouterLink } from '@angular/router';
 import { HttpService } from '../../../services/http/http.service';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { CustomSelectComponent } from '../../../components/custom-select/custom-select.component';
 
 @Component({
   selector: 'app-character-list',
@@ -32,7 +32,8 @@ import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatSelectModule,
     RouterLink,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CustomSelectComponent
 ],
   animations: [
     trigger('fadeInUp', [
@@ -69,11 +70,14 @@ export class CharacterListComponent implements OnInit {
   @Input() loading: boolean = false;
   @Input() searchKeyword?: string;
   @Output() scrollEnd = new EventEmitter<void>();
-  private throttleTimeout: any = null;
+  @Output() onFilterChange: EventEmitter<any> = new EventEmitter();
+
+  throttleTimeout: any = null;
   selectedId: number | null = null;
   thumbLoaded: { [key: number]: boolean } = {};
   pathsData: any[] = [];
-  private formBuilder = inject(FormBuilder);
+  typesData: any[] = [];
+  formBuilder = inject(FormBuilder);
   filterForm?: any;
 
   constructor(
@@ -83,7 +87,8 @@ export class CharacterListComponent implements OnInit {
 
   ngOnInit(): void {
     this.filterForm = this.formBuilder.group({
-      paths: [null],
+      pathId: [0],
+      typeId: [0],
     });
   }
 
@@ -142,15 +147,49 @@ export class CharacterListComponent implements OnInit {
     this.thumbLoaded[characterId] = true;
   }
 
-  onPathOpened(opened: boolean) {
+  onPathsOpened(opened: boolean) {
     if (opened) {
-      this.http.post(`${environment.apiUrl}/paths/list`, {}).subscribe({
+      this.http.post(`${environment.apiUrl}/paths/list`, { limit: 100 }).subscribe({
         next: (res: any) => {
           this.pathsData = res.data;
-          console.log('API response:', res);
         },
         error: (err) => console.error('API error:', err)
       });
     }
   }  
+
+  onPathsSelectionChange(selection: number) {
+    const pathId = Number(selection);
+    this.filterForm.patchValue({ pathId });
+    const formValues = this.filterForm.getRawValue();
+    const numericValues = {
+      pathId: Number(formValues.pathId),
+      typeId: Number(formValues.typeId)
+    };
+    this.onFilterChange.emit(numericValues);
+  }
+
+  onTypesOpened(opened: boolean) {
+    if (opened) {
+      this.http.post(`${environment.apiUrl}/types/list`, { limit: 100 }).subscribe({
+        next: (res: any) => {
+          this.typesData = res.data;
+        },
+        error: (err) => console.error('API error:', err)
+      });
+
+      console.log('Types opened');
+    }
+  }
+
+  onTypesSelectionChange(selection: number) {
+    const typeId = Number(selection);
+    this.filterForm.patchValue({ typeId });
+    const formValues = this.filterForm.getRawValue();
+    const numericValues = {
+      pathId: Number(formValues.pathId),
+      typeId: Number(formValues.typeId)
+    };
+    this.onFilterChange.emit(numericValues);
+  }
 }

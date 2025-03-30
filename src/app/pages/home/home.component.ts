@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   @ViewChild(CustomSidenavComponent) drawer!: CustomSidenavComponent;
 
   characters: any[] = [];
+  filters: any;
   isLoading: boolean = false;
   searchKeyword: string = '';
   limit: number = LIST_LIMIT;
@@ -66,20 +67,15 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  public getCharacters() {
+  public getCharacters(filters: any = {}) {
     if (this.isLoading) return;
 
     this.isLoading = true;
     const data: any = {
-      // limit: LIST_LIMIT,
-      // ...(this.lastItemId !== undefined && {
-      //   lastEvaluatedKey: {
-      //     id: this.lastItemId
-      //   }
-      // }),
       limit: this.limit,
       offset: this.offset,
-      keyword: this.searchKeyword
+      keyword: this.searchKeyword,
+      filters: filters
     }
 
     this.http.post(`${environment.apiUrl}/characters/list`, data).subscribe({
@@ -104,11 +100,20 @@ export class HomeComponent implements OnInit {
 
   onSearch(keyword: string) {
     this.characters = [];
+    this.filters = {};
     
     this.router.navigate([], {
       queryParams: { search: keyword },
       queryParamsHandling: 'merge',
     })
+  }
+
+  onFilter(filters: any) {
+    this.characters = [];
+    this.isLoading = false;
+    this.offset = 0;
+    this.filters = filters;
+    this.getCharacters(filters);
   }
 
   scrollToTop() {

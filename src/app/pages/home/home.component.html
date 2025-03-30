@@ -11,7 +11,8 @@
     [charactersData]="characters"
     [loading]="isLoading"
     [searchKeyword]="searchKeyword"
-    (scrollEnd)="getCharacters()"
+    (scrollEnd)="getCharacters(filters)"
+    (onFilterChange)="onFilter($event)"
   />
   @if (showScrollTopButton) {
     <div class="fab">
