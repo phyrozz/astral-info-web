@@ -7,6 +7,7 @@ import { LIST_LIMIT } from '../../../constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit {
   @ViewChild(CustomSidenavComponent) drawer!: CustomSidenavComponent;
 
   characters: any[] = [];
+  filters: any;
   isLoading: boolean = false;
   searchKeyword: string = '';
   limit: number = LIST_LIMIT;
@@ -65,23 +67,18 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  public getCharacters() {
+  public getCharacters(filters: any = {}) {
     if (this.isLoading) return;
 
     this.isLoading = true;
     const data: any = {
-      // limit: LIST_LIMIT,
-      // ...(this.lastItemId !== undefined && {
-      //   lastEvaluatedKey: {
-      //     id: this.lastItemId
-      //   }
-      // }),
       limit: this.limit,
       offset: this.offset,
-      keyword: this.searchKeyword
+      keyword: this.searchKeyword,
+      filters: filters
     }
 
-    this.http.post("https://j2hiihr9tj.execute-api.ap-southeast-1.amazonaws.com/dev/characters/list", data).subscribe({
+    this.http.post(`${environment.apiUrl}/characters/list`, data).subscribe({
       next: (res: any) => {
         this.characters = [...this.characters, ...res.data];
         // this.lastItemId = res.pagination.lastEvaluatedKey?.id;
@@ -102,13 +99,21 @@ export class HomeComponent implements OnInit {
   }
 
   onSearch(keyword: string) {
-    this.drawer.drawer.close();
     this.characters = [];
+    this.filters = {};
     
     this.router.navigate([], {
       queryParams: { search: keyword },
       queryParamsHandling: 'merge',
     })
+  }
+
+  onFilter(filters: any) {
+    this.characters = [];
+    this.isLoading = false;
+    this.offset = 0;
+    this.filters = filters;
+    this.getCharacters(filters);
   }
 
   scrollToTop() {

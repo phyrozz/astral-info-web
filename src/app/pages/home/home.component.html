@@ -1,13 +1,18 @@
-<app-custom-sidenav #drawer>
-  <app-custom-toolbar
-    (toggleSidenav)="drawer.drawer.toggle()"
-    (searchEvent)="onSearch($event)"
-  ></app-custom-toolbar>
+<!-- <app-custom-sidenav #drawer>
+  
+</app-custom-sidenav> -->
+<app-custom-toolbar
+  (toggleSidenav)="drawer.drawer.toggle()"
+  (searchEvent)="onSearch($event)"
+></app-custom-toolbar>
+
+<div class="container">
   <app-character-list
     [charactersData]="characters"
     [loading]="isLoading"
     [searchKeyword]="searchKeyword"
-    (scrollEnd)="getCharacters()"
+    (scrollEnd)="getCharacters(filters)"
+    (onFilterChange)="onFilter($event)"
   />
   @if (showScrollTopButton) {
     <div class="fab">
@@ -16,4 +21,4 @@
       </button>
     </div>
   }
-</app-custom-sidenav>
+</div>

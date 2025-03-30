@@ -6,10 +6,44 @@
         <mat-icon>arrow_back</mat-icon>
       </button>
     }
-    <h1 @fadeIn>Characters</h1>
+    <h1 class="kanit-extralight" @fadeIn>Characters</h1>
     @if (searchKeyword) {
       <p>Search Results for <b>{{ searchKeyword }}</b></p>
     }
+  </div>
+
+  <div class="filter-container">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>filter_list</mat-icon>
+            Filter
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <form [formGroup]="filterForm" class="filter-form">
+          <app-custom-select
+            label="Paths"
+            controlName="pathId"
+            [options]="pathsData"
+            [defaultValue]="0"
+            (onOpenChange)="onPathsOpened($event)"
+            (onSelectionChange)="onPathsSelectionChange($event)"
+          ></app-custom-select>
+
+          <app-custom-select
+            label="Types"
+            controlName="typeId"
+            [options]="typesData"
+            [defaultValue]="0"
+            (onOpenChange)="onTypesOpened($event)"
+            (onSelectionChange)="onTypesSelectionChange($event)"
+          ></app-custom-select>
+        </form>
+        
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
 
   <div class="character-list">
@@ -20,24 +54,17 @@
             <mat-card-title class="kanit-regular">{{ character.name }}</mat-card-title>
             <mat-card-subtitle class="kanit-thin">{{ character.path }}</mat-card-subtitle>
           </mat-card-header>
-          <!-- Low resolution placeholder -->
+          
           <img
-            class="image placeholder"
+            class="image high-res"
             [ngSrc]="imagePaths(character.character_img).lowRes"
             alt="{{ character.name }} splash art low res"
             fill
-          />
-          
-          <!-- High resolution image -->
-          <img
-            class="image high-res"
-            [ngSrc]="imagePaths(character.character_img).highRes"
-            alt="{{ character.name }} splash art high res"
-            fill
-            (load)="onHighResLoad(character.id)"
-            [class.loaded]="highResLoaded[character.id]"
+            (load)="onThumbLoaded(character.id)"
+            [class.loaded]="thumbLoaded[character.id]"
           />         
         </mat-card>
+        
         @if (selectedId === character.id) {
           <mat-card class="card card-clone" [@expandFadeOut]="'expanded'">
             <mat-card-header>
@@ -50,10 +77,11 @@
         }
       </a>
     }
+    
+    @if (loading) {
+      <div class="loading-container">
+        <mat-spinner diameter="50" strokeWidth="10"></mat-spinner>
+      </div>
+    }
   </div>
-  @if (loading) {
-    <div class="loading-container">
-      <mat-spinner diameter="50" strokeWidth="10"></mat-spinner>
-    </div>
-  }
 </div>

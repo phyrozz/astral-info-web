@@ -89,7 +89,7 @@ export class CharacterComponent implements OnInit {
   }
 
   getCharacterData(id: number) {
-    this.http.get(`https://j2hiihr9tj.execute-api.ap-southeast-1.amazonaws.com/dev/characters/get/${id}`).subscribe({
+    this.http.get(`${environment.apiUrl}/characters/get/${id}`).subscribe({
       next: (res: any) => {
         this.characterData = res.data;
         
@@ -121,9 +121,7 @@ export class CharacterComponent implements OnInit {
     }
   }
 
-  onSearch(keyword: string) {
-    this.drawer.drawer.close();
-    
+  onSearch(keyword: string) {    
     this.router.navigate(['/'], {
       queryParams: { search: keyword },
       queryParamsHandling: 'merge',

@@ -1,55 +1,57 @@
-<app-custom-sidenav #drawer>
-  <app-custom-toolbar 
-    (toggleSidenav)="drawer.drawer.toggle()"
-    (searchEvent)="onSearch($event)"
-  ></app-custom-toolbar>
-  <div class="header">
-    <button mat-icon-button routerLink="/">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-    @if (characterData && headerImageLoaded) {
-      <div class="character-highlight" @fadeIn>
-        <img [ngSrc]="headerImagePath(characterData?.character_img)" priority fill>
-      </div>
-      <div class="header-text">
-        <h1 class="kanit-bold" @fadeInUp>{{ characterData?.name }}</h1>
-        <h2 class="kanit-thin" @fadeInUp>{{ characterData?.path }}</h2>
-      </div>
-      <div class="header-gradient"></div>
-      <img #headerImage [src]="headerImagePath(characterData?.character_img)" alt="{{ characterData?.character_img }} Header Image" @fadeIn>
-    } @else {
-      <div class="loading-container">
-        <mat-spinner diameter="50" strokeWidth="10"></mat-spinner>
-      </div>
-    }
-  </div>
+<!-- <app-custom-sidenav #drawer>
+  
+</app-custom-sidenav> -->
 
-  @if (!isLoading) {
-    <mat-tab-group>
-      <mat-tab label="Details and Stats">
-        <app-details
-          [characterDetails]="characterData"
-        ></app-details>
-      </mat-tab>
-      <mat-tab label="Skills"></mat-tab>
-      <mat-tab label="Traces"></mat-tab>
-      <mat-tab label="Eidolons"></mat-tab>
-      <mat-tab label="Story"></mat-tab>
-      <mat-tab label="Fan Artworks">
-        <ng-template matTabContent>
-          <app-fan-artworks
-            [tagName]="characterData?.booru_tag_name"
-          ></app-fan-artworks>
-        </ng-template>
-      </mat-tab>
-    </mat-tab-group>
-    
-  }
-  @if (showScrollTopButton) {
-    <div class="fab">
-      <button mat-fab aria-label="Back to top button" (click)="scrollToTop()">
-        <mat-icon>keyboard_arrow_up</mat-icon>
-      </button>
+<app-custom-toolbar 
+  (searchEvent)="onSearch($event)"
+></app-custom-toolbar>
+
+<div class="header">
+  <button mat-icon-button routerLink="/">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  @if (characterData && headerImageLoaded) {
+    <div class="character-highlight" @fadeIn>
+      <img [ngSrc]="headerImagePath(characterData?.character_img)" priority fill>
+    </div>
+    <div class="header-text">
+      <h1 class="kanit-bold" @fadeInUp>{{ characterData?.name }}</h1>
+      <h2 class="kanit-thin" @fadeInUp>{{ characterData?.path }}</h2>
+    </div>
+    <div class="header-gradient"></div>
+    <img #headerImage [src]="headerImagePath(characterData?.character_img)" alt="{{ characterData?.character_img }} Header Image" @fadeIn>
+  } @else {
+    <div class="loading-container">
+      <mat-spinner diameter="50" strokeWidth="10"></mat-spinner>
     </div>
   }
-</app-custom-sidenav>
+</div>
+
+@if (!isLoading) {
+  <mat-tab-group>
+    <mat-tab label="Details and Stats">
+      <app-details
+        [characterDetails]="characterData"
+      ></app-details>
+    </mat-tab>
+    <mat-tab label="Skills"></mat-tab>
+    <mat-tab label="Traces"></mat-tab>
+    <mat-tab label="Eidolons"></mat-tab>
+    <mat-tab label="Story"></mat-tab>
+    <mat-tab label="Fan Artworks">
+      <ng-template matTabContent>
+        <app-fan-artworks
+          [tagName]="characterData?.booru_tag_name"
+        ></app-fan-artworks>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+  
+}
+@if (showScrollTopButton) {
+  <div class="fab">
+    <button mat-fab aria-label="Back to top button" (click)="scrollToTop()">
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+  </div>
+}

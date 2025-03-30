@@ -1,13 +1,21 @@
-import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, inject, OnInit } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Router, RouterLink } from '@angular/router';
+import { HttpService } from '../../../services/http/http.service';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { CustomSelectComponent } from '../../../components/custom-select/custom-select.component';
+
 @Component({
   selector: 'app-character-list',
   standalone: true,
@@ -19,7 +27,13 @@ import { Router, RouterLink } from '@angular/router';
     CommonModule,
     NgOptimizedImage,
     MatProgressSpinnerModule,
-    RouterLink
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    RouterLink,
+    ReactiveFormsModule,
+    CustomSelectComponent
 ],
   animations: [
     trigger('fadeInUp', [
@@ -51,17 +65,32 @@ import { Router, RouterLink } from '@angular/router';
   templateUrl: './character-list.component.html',
   styleUrl: './character-list.component.scss'
 })
-export class CharacterListComponent {
+export class CharacterListComponent implements OnInit {
   @Input() charactersData: any[] = [];
   @Input() loading: boolean = false;
   @Input() searchKeyword?: string;
   @Output() scrollEnd = new EventEmitter<void>();
-  private throttleTimeout: any = null;
+  @Output() onFilterChange: EventEmitter<any> = new EventEmitter();
+
+  throttleTimeout: any = null;
   selectedId: number | null = null;
+  thumbLoaded: { [key: number]: boolean } = {};
+  pathsData: any[] = [];
+  typesData: any[] = [];
+  formBuilder = inject(FormBuilder);
+  filterForm?: any;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private http: HttpService,
   ) {}
+
+  ngOnInit(): void {
+    this.filterForm = this.formBuilder.group({
+      pathId: [0],
+      typeId: [0],
+    });
+  }
 
   private debounceTimeout: any = null;
   private readonly DEBOUNCE_TIME = 100;
@@ -113,10 +142,54 @@ export class CharacterListComponent {
 
     return { lowRes, highRes };
   }
+  
+  onThumbLoaded(characterId: number) {
+    this.thumbLoaded[characterId] = true;
+  }
 
-  highResLoaded: { [key: string]: boolean } = {};
+  onPathsOpened(opened: boolean) {
+    if (opened) {
+      this.http.post(`${environment.apiUrl}/paths/list`, { limit: 100 }).subscribe({
+        next: (res: any) => {
+          this.pathsData = res.data;
+        },
+        error: (err) => console.error('API error:', err)
+      });
+    }
+  }  
 
-  onHighResLoad(characterId: string | number) {
-    this.highResLoaded[characterId] = true;
+  onPathsSelectionChange(selection: number) {
+    const pathId = Number(selection);
+    this.filterForm.patchValue({ pathId });
+    const formValues = this.filterForm.getRawValue();
+    const numericValues = {
+      pathId: Number(formValues.pathId),
+      typeId: Number(formValues.typeId)
+    };
+    this.onFilterChange.emit(numericValues);
+  }
+
+  onTypesOpened(opened: boolean) {
+    if (opened) {
+      this.http.post(`${environment.apiUrl}/types/list`, { limit: 100 }).subscribe({
+        next: (res: any) => {
+          this.typesData = res.data;
+        },
+        error: (err) => console.error('API error:', err)
+      });
+
+      console.log('Types opened');
+    }
+  }
+
+  onTypesSelectionChange(selection: number) {
+    const typeId = Number(selection);
+    this.filterForm.patchValue({ typeId });
+    const formValues = this.filterForm.getRawValue();
+    const numericValues = {
+      pathId: Number(formValues.pathId),
+      typeId: Number(formValues.typeId)
+    };
+    this.onFilterChange.emit(numericValues);
   }
 }
