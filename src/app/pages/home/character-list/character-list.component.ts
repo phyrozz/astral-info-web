@@ -77,6 +77,10 @@ export class CharacterListComponent implements OnInit {
   thumbLoaded: { [key: number]: boolean } = {};
   pathsData: any[] = [];
   typesData: any[] = [];
+  rarityData: any[] = [
+    { id: 4, name: '4' },
+    { id: 5, name: '5' }
+  ];
   formBuilder = inject(FormBuilder);
   filterForm?: any;
 
@@ -89,6 +93,7 @@ export class CharacterListComponent implements OnInit {
     this.filterForm = this.formBuilder.group({
       pathId: [0],
       typeId: [0],
+      rarity: [0]
     });
   }
 
@@ -159,14 +164,8 @@ export class CharacterListComponent implements OnInit {
   }  
 
   onPathsSelectionChange(selection: number) {
-    const pathId = Number(selection);
-    this.filterForm.patchValue({ pathId });
-    const formValues = this.filterForm.getRawValue();
-    const numericValues = {
-      pathId: Number(formValues.pathId),
-      typeId: Number(formValues.typeId)
-    };
-    this.onFilterChange.emit(numericValues);
+    this.filterForm.patchValue({ pathId: selection });
+    this.onFilterChange.emit(this.filterForm.getRawValue());
   }
 
   onTypesOpened(opened: boolean) {
@@ -183,13 +182,16 @@ export class CharacterListComponent implements OnInit {
   }
 
   onTypesSelectionChange(selection: number) {
-    const typeId = Number(selection);
-    this.filterForm.patchValue({ typeId });
-    const formValues = this.filterForm.getRawValue();
-    const numericValues = {
-      pathId: Number(formValues.pathId),
-      typeId: Number(formValues.typeId)
-    };
-    this.onFilterChange.emit(numericValues);
+    this.filterForm.patchValue({ typeId: selection });
+    this.onFilterChange.emit(this.filterForm.getRawValue());
+  }
+
+  onRarityOpened(opened: boolean) {
+
+  }
+
+  onRaritySelectionChange(selection: number) {
+    this.filterForm.patchValue({ rarity: selection });
+    this.onFilterChange.emit(this.filterForm.getRawValue());
   }
 }

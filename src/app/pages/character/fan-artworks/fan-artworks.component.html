@@ -1,7 +1,7 @@
 <mat-grid-list [cols]="gridCols()" rowHeight="1:1">
   @for (artwork of fanArtworks; track artwork.id) {
     <mat-grid-tile>
-      <div class="image-container" (click)="openPreview(artwork.media_asset.variants[3].url)">
+      <div class="image-container" (click)="openPreview(artwork.media_asset.variants[3].url, artwork.source)">
         <img
           class="image"
           mat-card-image

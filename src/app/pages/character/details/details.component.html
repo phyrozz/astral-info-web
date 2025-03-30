@@ -1,17 +1,37 @@
-<div class="details" @fadeIn>
-  <mat-list>
-    @for (detail of details; track detail.description) {
-      <mat-list-item>
-        @if (detail.isMatIcon) {
-          <mat-icon matListItemIcon>{{ detail.icon }}</mat-icon>
-        } @else {
-          <img [src]="detail.icon" matListItemIcon alt="{{ detail.icon }} icon">
-        }
-        <h3 matListItemTitle class="list-item-title kanit-regular">{{ detail.data }}</h3>
-        <p matListItemLine class="list-item-subtitle kanit-thin">
-          <span>{{ detail.description }}</span>
-        </p>
-      </mat-list-item>
-    }
-  </mat-list>
+<div class="container">
+  <div class="details" @fadeIn>
+    <mat-list>
+      @for (detail of details; track detail.description) {
+        <mat-list-item>
+          @if (detail.isMatIcon) {
+            <mat-icon matListItemIcon>{{ detail.icon }}</mat-icon>
+          } @else {
+            <img [src]="detail.icon" matListItemIcon alt="{{ detail.icon }} icon">
+          }
+          <h3 matListItemTitle class="list-item-title kanit-regular">{{ detail.data }}</h3>
+          <p matListItemLine class="list-item-subtitle kanit-thin">
+            <span>{{ detail.description }}</span>
+          </p>
+        </mat-list-item>
+      }
+    </mat-list>
+  </div>
+
+  <div class="stats" @fadeIn>
+    <mat-list>
+      @for (stat of stats; track stat.description) {
+        <mat-list-item>
+          @if (stat.isMatIcon) {
+            <mat-icon matListItemIcon>{{ stat.icon }}</mat-icon>
+          } @else {
+            <img [src]="stat.icon" matListItemIcon alt="{{ stat.icon }} icon">
+          }
+          <h3 matListItemTitle class="list-item-title kanit-regular">{{ stat.data }}</h3>
+          <p matListItemLine class="list-item-subtitle kanit-thin">
+            <span>{{ stat.description }}</span>
+          </p>
+        </mat-list-item>
+      }
+    </mat-list>
+  </div>
 </div>

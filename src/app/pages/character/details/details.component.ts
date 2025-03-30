@@ -31,9 +31,11 @@ import { MatIconModule } from '@angular/material/icon';
 export class DetailsComponent implements OnInit {
   @Input() characterDetails: any;
   details: any[] = [];
+  stats: any[] = [];
 
   ngOnInit(): void {
     this.setDetails(this.characterDetails);
+    this.setStats(this.characterDetails);
   }
 
   private setDetails(data: any) {
@@ -58,6 +60,41 @@ export class DetailsComponent implements OnInit {
         description: "Rarity",
         icon: "star",
         data: data.rarity,
+        isMatIcon: true
+      }
+    ];
+  }
+
+  private setStats(data: any) {
+    this.stats = [
+      {
+        description: "HP",
+        icon: "favorite",
+        data: data.base_stats.hp,
+        isMatIcon: true
+      },
+      {
+        description: "ATK",
+        icon: "favorite",
+        data: data.base_stats.atk,
+        isMatIcon: true
+      },
+      {
+        description: "DEF",
+        icon: "shield",
+        data: data.base_stats.def,
+        isMatIcon: true
+      },
+      {
+        description: "SPD",
+        icon: "favorite",
+        data: data.base_stats.spd,
+        isMatIcon: true
+      },
+      {
+        description: "Taunt",
+        icon: "favorite",
+        data: data.base_stats.taunt,
         isMatIcon: true
       }
     ];

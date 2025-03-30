@@ -40,6 +40,15 @@
             (onOpenChange)="onTypesOpened($event)"
             (onSelectionChange)="onTypesSelectionChange($event)"
           ></app-custom-select>
+
+          <app-custom-select
+            label="Rarity"
+            controlName="rarity"
+            [options]="rarityData"
+            [defaultValue]="0"
+            (onOpenChange)="onRarityOpened($event)"
+            (onSelectionChange)="onRaritySelectionChange($event)"
+          ></app-custom-select>
         </form>
         
       </mat-expansion-panel>

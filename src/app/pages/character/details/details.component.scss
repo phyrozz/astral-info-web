@@ -4,10 +4,25 @@ mat-icon {
   color: $light-gray !important;
 }
 
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .details {
   padding: 1em;
   background-color: $space-black;
   color: $light-gray !important;
+}
+
+.stats {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
 }
 
 .list-item-title {

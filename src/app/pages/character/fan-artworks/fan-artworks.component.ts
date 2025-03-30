@@ -118,9 +118,9 @@ export class FanArtworksComponent implements OnInit, OnDestroy {
     })
   }
 
-  openPreview(imgSrc: string): void {
+  openPreview(imgSrc: string, source: string): void {
     const dialogRef = this.dialog.open(FanArtworkPreviewComponent, {
-      data: { imgSrc: imgSrc },
+      data: { imgSrc: imgSrc, source: source },
       width: '80vw',
       height: '80vh',
       panelClass: 'no-padding-dialog',
