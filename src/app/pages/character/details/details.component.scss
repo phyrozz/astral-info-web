@@ -15,6 +15,7 @@ mat-icon {
   padding: 1em;
   background-color: $space-black;
   color: $light-gray !important;
+  box-sizing: border-box;
 }
 
 .stats {
@@ -23,6 +24,38 @@ mat-icon {
   flex-direction: row;
   align-items: center;
   justify-content: end;
+  box-sizing: border-box;
+  margin-right: 20px;
+
+  .horizontal-list {
+    width: 100%;
+
+    .level-item {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: end;
+      justify-content: center;
+
+      mat-slider {
+        width: 75%;
+      }
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    mat-list-item {
+      width: fit-content;
+      white-space: wrap;
+      overflow: visible;
+    }
+  }
 }
 
 .list-item-title {
@@ -33,4 +66,22 @@ mat-icon {
 .list-item-subtitle {
   font-size: small;
   color: $light-gray !important;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .details {
+      width: 100%;
+      padding: 0 20px;
+    }
+
+    .stats {
+      width: 100%;
+      padding: 0 20px;
+    }
+  }
 }

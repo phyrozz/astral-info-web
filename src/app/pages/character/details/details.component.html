@@ -18,19 +18,34 @@
   </div>
 
   <div class="stats" @fadeIn>
-    <mat-list>
+    <mat-list class="horizontal-list">
+      <div class="level-item">
+        <p class="kanit-regular">Level {{ level }}</p>
+        <mat-slider
+          min="1"
+          max="80"
+          step="1"
+          [(ngModel)]="level"
+        >
+          <input matSliderThumb>
+        </mat-slider>
+      </div>
+    
       @for (stat of stats; track stat.description) {
-        <mat-list-item>
-          @if (stat.isMatIcon) {
-            <mat-icon matListItemIcon>{{ stat.icon }}</mat-icon>
-          } @else {
-            <img [src]="stat.icon" matListItemIcon alt="{{ stat.icon }} icon">
-          }
-          <h3 matListItemTitle class="list-item-title kanit-regular">{{ stat.data }}</h3>
-          <p matListItemLine class="list-item-subtitle kanit-thin">
-            <span>{{ stat.description }}</span>
-          </p>
-        </mat-list-item>
+        <div class="stat-item">
+          <mat-list-item>
+            @if (stat.isMatIcon) {
+              <mat-icon matListItemIcon>{{ stat.icon }}</mat-icon>
+            } @else {
+              <img [src]="stat.icon" matListItemIcon alt="{{ stat.icon }} icon">
+            }
+            <h3 matListItemTitle class="list-item-title kanit-regular">{{ stat.data }}</h3>
+            <p matListItemLine class="list-item-subtitle kanit-thin">
+              <span>{{ stat.description }}</span>
+            </p>
+          </mat-list-item>
+          <mat-progress-bar mode="determinate" [value]="50"></mat-progress-bar>
+        </div>
       }
     </mat-list>
   </div>

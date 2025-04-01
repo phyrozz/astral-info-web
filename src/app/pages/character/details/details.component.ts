@@ -3,13 +3,19 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { environment } from '../../../../environments/environment';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSliderModule } from '@angular/material/slider';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-details',
   standalone: true,
   imports: [
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressBarModule,
+    MatSliderModule,
+    FormsModule
   ],
   animations: [
     trigger('fadeInUp', [
@@ -32,6 +38,7 @@ export class DetailsComponent implements OnInit {
   @Input() characterDetails: any;
   details: any[] = [];
   stats: any[] = [];
+  level: number = 1;
 
   ngOnInit(): void {
     this.setDetails(this.characterDetails);
